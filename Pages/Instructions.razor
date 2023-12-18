@@ -1,0 +1,23 @@
+﻿@page "/Instructions"
+@using DataJuggler.Blazor.Components
+
+<PageTitle>Snow Creator Instructions</PageTitle>
+
+<div class="logo"></div>
+<div class="omniverse"><span class="for">For</span></div>
+
+<div class="instructions">
+    1. (Optional) Determine the x and z min and max values in your scene by using a sphere.<br />
+    2. Enter the bounds for your scene by using the Translate X and Z Min and Max values.<br />
+    3. Enter the scale min and max values 1 - 9.<br />
+    4. Enter the # to create 1 - 6000. Click the Create Snow button.<br />
+    5. Download the zip file and extract the .usda file. Drag the .usda file onto the stage (not viewport).<br />
+    6. In Omniverse, create a Physics Scene, and change the Gravity Magnitude to around 3 - 15.<br />
+    7. Subscribe to my YouTube channel. <a href="https://youtube.com/DataJuggler" target="_blank" class="link">Data Juggler YouTube</a><br />
+    
+    <b>Tips:</b> <br />
+    1. You can add multiple snow scenes. Set the additional y value and snow will be created further up.<br />
+    If you add many snow scenes, you will have to modify your physics scene GPU settings and increase the
+    Max Rigid Body Patch Count, and probably the Max Contact Capacity or Lost Pairs Count.<br />
+    2. Enable the extension Fabric. This will increase your FPS rate by about 10 to 20 times.<br />
+</div>

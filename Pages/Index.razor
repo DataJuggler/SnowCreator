@@ -1,0 +1,70 @@
+﻿@page "/"
+@using DataJuggler.Blazor.Components
+
+<PageTitle>Snow Creator</PageTitle>
+
+<div class="logo"></div>
+<div class="omniverse"><span class="for">For</span></div>
+
+<div class="verticalcolumn1">
+    <ValidationComponent Name="TranslateXMin" Parent="this" Caption="Translate X Min:"
+        Column1Width="100" LabelClassName="down3 right2"></ValidationComponent>
+    <ValidationComponent Name="TranslateXMax" Parent="this" Caption="Translate Y Max:"
+        Column1Width="100" LabelClassName="down3 right2"></ValidationComponent>
+    <ValidationComponent Name="ObjectsToCreate" Parent="this" Caption="# To Create:"
+        Column1Width="100" LabelClassName="down3 right2"></ValidationComponent>
+</div>
+<div class="verticalcolumn2">
+    <ValidationComponent Name="TranslateYMin" Parent="this" Caption="Translate Y Min:"
+        Column1Width="100" LabelClassName="down3 right2"></ValidationComponent>
+    <ValidationComponent Name="TranslateYMax" Parent="this" Caption="Translate Y Max:"
+        Column1Width="100" LabelClassName="down3 right2"></ValidationComponent>
+    <ValidationComponent Name="ScaleMin" Parent="this" Caption="Scale Min:"
+        Column1Width="100" LabelClassName="down3 right2"></ValidationComponent>
+    <ValidationComponent Name="AdditionalY" Parent="this" Caption="Additional Y:"
+        Column1Width="100" LabelClassName="down3 right2"></ValidationComponent>
+</div>
+<div class="verticalcolumn3">
+    <ValidationComponent Name="TranslateZMin" Parent="this" Caption="Translate Z Min:"
+        Column1Width="100" LabelClassName="down3 right2"></ValidationComponent>
+    <ValidationComponent Name="TranslateZMax" Parent="this" Caption="Translate Z Max:"
+        Column1Width="100" LabelClassName="down3 right2"></ValidationComponent>
+    <ValidationComponent Name="ScaleMax" Parent="this" Caption="Scale Max:"
+        Column1Width="100" LabelClassName="down3 right2"></ValidationComponent>
+    <ImageButton ImageUrl="../Images/SnowButton.png" ButtonText="Create Snow"
+        ClickHandler="ButtonClicked" HeightUnit="vh" Height="4" 
+        Position="relative" Left="12" Top="2"></ImageButton>
+</div>
+
+<div class="resultscontainer">
+    <Label ClassName="statuslabel" LabelColor="@LabelColor" Parent="this" Name="StatusLabel"></Label><br /><br />
+    @if (HasDownloadFileName)
+    {
+        <div class="colornavy text-nowrap">
+            <a class="downloadlink colornavy" download="@DownloadFileName"
+               href="@DownloadPath" target="_blank">@DownloadFileName</a><br />            
+            <div class="smallicon"></div>
+        </div>
+    }
+</div>
+
+<div class="topleft">
+    <a href="Instructions" target="_blank" class="link">Instructions</a>
+</div>
+
+@if (ShowProgress)
+{
+    <div class="progresscontainer">
+        <div class=@ProgressStyle>
+            <span class="text-white">@PercentString</span>
+            <div class="slice">
+                <div class="bar"></div>
+                <div class="fill"></div>
+            </div>
+        </div>
+    </div>
+}
+<a target="_blank" href="https://www.youtube.com/playlist?list=PLKrW5tXCPiX3BSm8S7tICQjfJ_EftUnsF" class="youtube" />
+<Sprite Subscriber=this Visible="true" Interval="800" Position="fixed" Name="InvisibleSprite"
+        XPosition="500" YPosition="600" Width="120" Height="120" ZIndex="-1">
+</Sprite>
