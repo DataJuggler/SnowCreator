@@ -43,11 +43,13 @@ body
 .instructions
 {
     position: fixed;
-    top: 12vh;
+    top: 10vh;
     left: 30vw;
     width: 40vw;
     height: 20vh;
-    font-size: 1em;    
+    font-size: 2.4vh;
+    font-family: Verdana;
+    color: navy;
 }
 .link
 {
@@ -76,6 +78,7 @@ body
     width: 10vw;
     height: 10vh;
     color: navy;
+    font-family: Verdana;
     font-size: 1.4em;
 }
 .omniverse
@@ -125,6 +128,15 @@ body
     top: 10vh;
     width: 20vw;
     height: 24vh;    
+}
+.version
+{
+    position: fixed;
+    top: 1.6vh;
+    right: 2vw;
+    color: navy;
+    font-family: Verdana;
+    font-size: 2.4vh;
 }
 .verticalcolumn2
 {
