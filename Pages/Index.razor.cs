@@ -35,6 +35,17 @@ namespace SnowCreator.Pages
         private ValidationComponent scaleMaxControl;
         private ValidationComponent additionalYControl;
         private ValidationComponent objectsToCreateControl;
+        private ValidationComponent enableWindCheckBox;
+        private ValidationComponent forceXMinControl;
+        private ValidationComponent forceXMaxControl;        
+        private ValidationComponent forceZMinControl;
+        private ValidationComponent forceZMaxControl;
+        private ValidationComponent velocityXMinControl;
+        private ValidationComponent velocityXMaxControl;        
+        private ValidationComponent velocityZMinControl;
+        private ValidationComponent velocityZMaxControl;
+        private ValidationComponent forcePercentControl;
+        private List<ValidationComponent> windControls;
         private Label statusLabel;
         private string downloadFileName;
         private string downloadPath;
@@ -46,6 +57,7 @@ namespace SnowCreator.Pages
         private string percentString;
         private int percent;        
         private string labelColor;
+        private bool enableWind;
         #endregion
         
         #region Constructor
@@ -141,6 +153,72 @@ namespace SnowCreator.Pages
                         // Set the value
                         TranslateZMinControl.SetTextValue(Settings.TranslateZMin.ToString());
                     }
+
+                    // if the value for HasForceXMaxControl is true
+                    if (HasForceXMaxControl)
+                    {
+                        // Set the initial value
+                        ForceXMaxControl.SetTextValue(settings.ForceXMax.ToString());
+                    }
+
+                    // if the value for HasForceXMinControl is true
+                    if (HasForceXMinControl)
+                    {
+                        // Set the initial value
+                        ForceXMinControl.SetTextValue(settings.ForceXMin.ToString());
+                    }
+
+                    // if the value for HasForceZMaxControl is true
+                    if (HasForceZMaxControl)
+                    {
+                        // Set the initial value
+                        ForceZMaxControl.SetTextValue(settings.ForceZMax.ToString());
+                    }
+
+                    // if the value for HasForceZMinControl is true
+                    if (HasForceZMinControl)
+                    {
+                        // Set the initial value
+                        ForceZMinControl.SetTextValue(settings.ForceZMin.ToString());
+                    }
+
+                    // if the value for HasVelocityXMaxControl is true
+                    if (HasVelocityXMaxControl)
+                    {
+                        // Set the initial value
+                        VelocityXMaxControl.SetTextValue(settings.VelocityXMax.ToString());
+                    }
+
+                    // if the value for HasVelocityXMinControl is true
+                    if (HasVelocityXMinControl)
+                    {
+                        // Set the initial value
+                        VelocityXMinControl.SetTextValue(settings.VelocityXMin.ToString());
+                    }
+
+                    // if the value for HasVelocityZMaxControl is true
+                    if (HasVelocityZMaxControl)
+                    {
+                        // Set the initial value
+                        VelocityZMaxControl.SetTextValue(settings.VelocityZMax.ToString());
+                    }
+
+                    // if the value for HasVelocityZMinControl is true
+                    if (HasVelocityZMinControl)
+                    {
+                        // Set the initial value
+                        VelocityZMinControl.SetTextValue(settings.VelocityZMin.ToString());
+                    }
+
+                    // if the value for HasForcePercentControl is true
+                    if (HasForcePercentControl)
+                    {
+                        // set the value for ForcePercent
+                        ForcePercentControl.SetTextValue(settings.ForcePercent.ToString());
+                    }
+
+                    // Disable the WinddControls at startup
+                    RefreshWindControls();
                 }
 
                 // call the base
@@ -357,6 +435,76 @@ namespace SnowCreator.Pages
                     Settings.TranslateZMin = NumericHelper.ParseInteger(TranslateZMinControl.Text, 0, 0);
                 }
 
+                // Store the value
+                settings.EnableForce = EnableWind;
+
+                // if the value for EnableWind is true
+                if (EnableWind)
+                {
+                    // if the value for HasForcePercentControl is true
+                    if (HasForcePercentControl)
+                    {
+                        // Set the ForcePercent
+                        settings.ForcePercent = NumericHelper.ParseInteger(ForcePercentControl.Text, 0, 0);
+                    }
+
+                    // if the Control exists
+                    if (HasForceXMaxControl)
+                    {
+                        // Set the value
+                        settings.ForceXMax = NumericHelper.ParseInteger(ForceXMaxControl.Text, 0, 0);
+                    }
+
+                    // if the Control exists
+                    if (HasForceXMinControl)
+                    {
+                        // Set the value
+                        settings.ForceXMin = NumericHelper.ParseInteger(ForceXMinControl.Text, 0, 0);
+                    }
+
+                    // if the Control exists
+                    if (HasForceZMaxControl)
+                    {
+                        // Set the value
+                        settings.ForceZMax = NumericHelper.ParseInteger(ForceZMaxControl.Text, 0, 0);
+                    }
+
+                    // if the Control exists
+                    if (HasForceZMinControl)
+                    {
+                        // Set the value
+                        settings.ForceZMin = NumericHelper.ParseInteger(ForceZMinControl.Text, 0, 0);
+                    }
+
+                    // if the Control exists
+                    if (HasVelocityXMaxControl)
+                    {
+                        // Set the value
+                        settings.VelocityXMax = NumericHelper.ParseInteger(VelocityXMaxControl.Text, 0, 0);
+                    }
+
+                    // if the Control exists
+                    if (HasVelocityXMinControl)
+                    {
+                        // Set the value
+                        settings.VelocityXMin = NumericHelper.ParseInteger(VelocityXMinControl.Text, 0, 0);
+                    }
+
+                    // if the Control exists
+                    if (HasVelocityZMaxControl)
+                    {
+                        // Set the value
+                        settings.VelocityZMax = NumericHelper.ParseInteger(VelocityZMaxControl.Text, 0, 0);
+                    }
+
+                    // if the Control exists
+                    if (HasVelocityZMinControl)
+                    {
+                        // Set the value
+                        settings.VelocityZMin = NumericHelper.ParseInteger(VelocityZMinControl.Text, 0, 0);
+                    }                
+                }
+                
                 // needed for validation messages
                 string invalidReason = "";
 
@@ -408,6 +556,40 @@ namespace SnowCreator.Pages
             }
             #endregion
             
+            #region RefreshWindControls()
+            /// <summary>
+            /// Enable or Disable the Wind Controls after Enable Wind is checked or unchecked.
+            /// </summary>
+            public void RefreshWindControls()
+            {
+                // If the WindControls collection exists and has one or more items
+                if (ListHelper.HasOneOrMoreItems(WindControls))
+                {
+                    // Iterate the collection of ValidationComponent objects
+                    foreach (ValidationComponent component in WindControls)
+                    {
+                        // if EnableWind is true
+                        if (EnableWind)
+                        {
+                            // Use black
+                            component.SetLabelColor("black");
+                        }
+                        else
+                        {
+                            // Use gray
+                            component.SetLabelColor("gray");
+                        }
+
+                        // Update the value for Enabled
+                        component.SetEnabled(EnableWind);
+
+                        // Update
+                        component.Refresh();
+                    }
+                }
+            }
+            #endregion
+            
             #region FindChildByName(string name)
             /// <summary>
             /// method Find Child By Name
@@ -445,9 +627,25 @@ namespace SnowCreator.Pages
                 Settings.TranslateZMax = 500;
                 Settings.AdditionalY = 0;
                 Settings.ScaleMax = 5;
-                Settings.ScaleMin = 1;
+                Settings.ScaleMin = 1;                
+                WindControls = new List<ValidationComponent>();
 
-                //
+                // Default Force Values
+                settings.ForcePercent = 50;
+                settings.ForceXMin = 0;
+                settings.ForceXMax = 100;
+                settings.ForceYMin = 0;
+                settings.ForceYMax = 0;
+                settings.ForceZMin = 0;
+                settings.ForceZMax = 100;
+                settings.VelocityXMin = 0;
+                settings.VelocityXMax = 1000;
+                settings.VelocityYMin = 0;
+                settings.VelocityYMax = 0;
+                settings.VelocityZMin = 0;
+                settings.VelocityZMax = 1000;
+
+                // Default to Black
                 LabelColor = "black";
             }
             #endregion
@@ -458,7 +656,19 @@ namespace SnowCreator.Pages
             /// </summary>
             public void ReceiveData(Message message)
             {
-                
+                // If the message object exists
+                if (NullHelper.Exists(message))
+                {
+                    // if the message is from the EnableWindCheckBox
+                    if ((HasEnableWindCheckBox) && (TextHelper.IsEqual(message.Sender.Name, EnableWindCheckBox.Name)))
+                    {
+                        // Set the value for EnableWind
+                        EnableWind = EnableWindCheckBox.CheckBoxValue;
+
+                        // Enable the Wind Controls
+                        RefreshWindControls();
+                    }
+                }
             }
             #endregion
             
@@ -588,6 +798,113 @@ namespace SnowCreator.Pages
 
                             // Store the control
                             TranslateZMaxControl = component as ValidationComponent;
+
+                            // required
+                            break;
+
+                        case "EnableWindCheckBox":
+
+                            // Store the control
+                            EnableWindCheckBox = component as ValidationComponent;
+
+                            // required
+                            break;
+
+                        case "ForceXMin":
+
+                            // Store the control
+                            ForceXMinControl = component as ValidationComponent;
+
+                            // Add this control to WindControls
+                            WindControls.Add(ForceXMinControl);
+
+                            // required
+                            break;
+
+                        case "ForceXMax":
+
+                            // Store the control
+                            ForceXMaxControl = component as ValidationComponent;
+
+                            // Add this control to WindControls
+                            WindControls.Add(ForceXMaxControl);
+
+                            // required
+                            break;
+
+                        case "ForceZMin":
+
+                            // Store the control
+                            ForceZMinControl = component as ValidationComponent;
+
+                            // Add this control to WindControls
+                            WindControls.Add(ForceZMinControl);
+
+                            // required
+                            break;
+
+                        case "ForceZMax":
+
+                            // Store the control
+                            ForceZMaxControl = component as ValidationComponent;
+
+                            // Add this control to WindControls
+                            WindControls.Add(ForceZMaxControl);
+
+                            // required
+                            break;
+
+                        case "VelocityXMin":
+
+                            // Store the control
+                            VelocityXMinControl = component as ValidationComponent;
+
+                            // Add this control to WindControls
+                            WindControls.Add(VelocityXMinControl);
+
+                            // required
+                            break;
+
+                        case "VelocityXMax":
+
+                            // Store the control
+                            VelocityXMaxControl = component as ValidationComponent;
+
+                            // Add this control to WindControls
+                            WindControls.Add(VelocityXMaxControl);
+
+                            // required
+                            break;
+
+                        case "VelocityZMin":
+
+                            // Store the control
+                            VelocityZMinControl = component as ValidationComponent;
+
+                            // Add this control to WindControls
+                            WindControls.Add(VelocityZMinControl);
+
+                            // required
+                            break;
+
+                        case "VelocityZMax":
+
+                            // Store the control
+                            VelocityZMaxControl = component as ValidationComponent;
+
+                            // Add this control to WindControls
+                            WindControls.Add(VelocityZMaxControl);
+
+                            // required
+                            break;
+
+                        case "ForcePercent":
+
+                            // Store the control
+                            ForcePercentControl = component as ValidationComponent;
+
+                             // Add this control to WindControls
+                            WindControls.Add(ForcePercentControl);
 
                             // required
                             break;
@@ -971,6 +1288,83 @@ namespace SnowCreator.Pages
                 set { downloadPath = value; }
             }
             #endregion
+           
+            #region EnableWind
+            /// <summary>
+            /// This property gets or sets the value for 'EnableWind'.
+            /// </summary>
+            public bool EnableWind
+            {
+                get { return enableWind; }
+                set { enableWind = value; }
+            }
+            #endregion
+            
+            #region EnableWindCheckBox
+            /// <summary>
+            /// This property gets or sets the value for 'EnableWindCheckBox'.
+            /// </summary>
+            public ValidationComponent EnableWindCheckBox
+            {
+                get { return enableWindCheckBox; }
+                set { enableWindCheckBox = value; }
+            }
+            #endregion
+            
+            #region ForcePercentControl
+            /// <summary>
+            /// This property gets or sets the value for 'ForcePercentControl'.
+            /// </summary>
+            public ValidationComponent ForcePercentControl
+            {
+                get { return forcePercentControl; }
+                set { forcePercentControl = value; }
+            }
+            #endregion
+            
+            #region ForceXMaxControl
+            /// <summary>
+            /// This property gets or sets the value for 'ForceXMaxControl'.
+            /// </summary>
+            public ValidationComponent ForceXMaxControl
+            {
+                get { return forceXMaxControl; }
+                set { forceXMaxControl = value; }
+            }
+            #endregion
+            
+            #region ForceXMinControl
+            /// <summary>
+            /// This property gets or sets the value for 'ForceXMinControl'.
+            /// </summary>
+            public ValidationComponent ForceXMinControl
+            {
+                get { return forceXMinControl; }
+                set { forceXMinControl = value; }
+            }
+            #endregion
+            
+            #region ForceZMaxControl
+            /// <summary>
+            /// This property gets or sets the value for 'ForceZMaxControl'.
+            /// </summary>
+            public ValidationComponent ForceZMaxControl
+            {
+                get { return forceZMaxControl; }
+                set { forceZMaxControl = value; }
+            }
+            #endregion
+            
+            #region ForceZMinControl
+            /// <summary>
+            /// This property gets or sets the value for 'ForceZMinControl'.
+            /// </summary>
+            public ValidationComponent ForceZMinControl
+            {
+                get { return forceZMinControl; }
+                set { forceZMinControl = value; }
+            }
+            #endregion
             
             #region HasAdditionalYControl
             /// <summary>
@@ -1019,6 +1413,108 @@ namespace SnowCreator.Pages
                     
                     // return value
                     return hasDownloadFileName;
+                }
+            }
+            #endregion
+            
+            #region HasEnableWindCheckBox
+            /// <summary>
+            /// This property returns true if this object has an 'EnableWindCheckBox'.
+            /// </summary>
+            public bool HasEnableWindCheckBox
+            {
+                get
+                {
+                    // initial value
+                    bool hasEnableWindCheckBox = (this.EnableWindCheckBox != null);
+                    
+                    // return value
+                    return hasEnableWindCheckBox;
+                }
+            }
+            #endregion
+            
+            #region HasForcePercentControl
+            /// <summary>
+            /// This property returns true if this object has a 'ForcePercentControl'.
+            /// </summary>
+            public bool HasForcePercentControl
+            {
+                get
+                {
+                    // initial value
+                    bool hasForcePercentControl = (this.ForcePercentControl != null);
+                    
+                    // return value
+                    return hasForcePercentControl;
+                }
+            }
+            #endregion
+            
+            #region HasForceXMaxControl
+            /// <summary>
+            /// This property returns true if this object has a 'ForceXMaxControl'.
+            /// </summary>
+            public bool HasForceXMaxControl
+            {
+                get
+                {
+                    // initial value
+                    bool hasForceXMaxControl = (this.ForceXMaxControl != null);
+                    
+                    // return value
+                    return hasForceXMaxControl;
+                }
+            }
+            #endregion
+            
+            #region HasForceXMinControl
+            /// <summary>
+            /// This property returns true if this object has a 'ForceXMinControl'.
+            /// </summary>
+            public bool HasForceXMinControl
+            {
+                get
+                {
+                    // initial value
+                    bool hasForceXMinControl = (this.ForceXMinControl != null);
+                    
+                    // return value
+                    return hasForceXMinControl;
+                }
+            }
+            #endregion
+            
+            #region HasForceZMaxControl
+            /// <summary>
+            /// This property returns true if this object has a 'ForceZMaxControl'.
+            /// </summary>
+            public bool HasForceZMaxControl
+            {
+                get
+                {
+                    // initial value
+                    bool hasForceZMaxControl = (this.ForceZMaxControl != null);
+                    
+                    // return value
+                    return hasForceZMaxControl;
+                }
+            }
+            #endregion
+            
+            #region HasForceZMinControl
+            /// <summary>
+            /// This property returns true if this object has a 'ForceZMinControl'.
+            /// </summary>
+            public bool HasForceZMinControl
+            {
+                get
+                {
+                    // initial value
+                    bool hasForceZMinControl = (this.ForceZMinControl != null);
+                    
+                    // return value
+                    return hasForceZMinControl;
                 }
             }
             #endregion
@@ -1223,6 +1719,91 @@ namespace SnowCreator.Pages
                     
                     // return value
                     return hasTranslateZMinControl;
+                }
+            }
+            #endregion
+            
+            #region HasVelocityXMaxControl
+            /// <summary>
+            /// This property returns true if this object has a 'VelocityXMaxControl'.
+            /// </summary>
+            public bool HasVelocityXMaxControl
+            {
+                get
+                {
+                    // initial value
+                    bool hasVelocityXMaxControl = (this.VelocityXMaxControl != null);
+                    
+                    // return value
+                    return hasVelocityXMaxControl;
+                }
+            }
+            #endregion
+            
+            #region HasVelocityXMinControl
+            /// <summary>
+            /// This property returns true if this object has a 'VelocityXMinControl'.
+            /// </summary>
+            public bool HasVelocityXMinControl
+            {
+                get
+                {
+                    // initial value
+                    bool hasVelocityXMinControl = (this.VelocityXMinControl != null);
+                    
+                    // return value
+                    return hasVelocityXMinControl;
+                }
+            }
+            #endregion
+            
+            #region HasVelocityZMaxControl
+            /// <summary>
+            /// This property returns true if this object has a 'VelocityZMaxControl'.
+            /// </summary>
+            public bool HasVelocityZMaxControl
+            {
+                get
+                {
+                    // initial value
+                    bool hasVelocityZMaxControl = (this.VelocityZMaxControl != null);
+                    
+                    // return value
+                    return hasVelocityZMaxControl;
+                }
+            }
+            #endregion
+            
+            #region HasVelocityZMinControl
+            /// <summary>
+            /// This property returns true if this object has a 'VelocityZMinControl'.
+            /// </summary>
+            public bool HasVelocityZMinControl
+            {
+                get
+                {
+                    // initial value
+                    bool hasVelocityZMinControl = (this.VelocityZMinControl != null);
+                    
+                    // return value
+                    return hasVelocityZMinControl;
+                }
+            }
+            #endregion
+            
+            #region HasWindControls
+            /// <summary>
+            /// This property returns true if this object has a 'WindControls'.
+            /// </summary>
+            public bool HasWindControls
+            {
+                get
+                {
+                    // initial value
+                    bool hasWindControls = (this.WindControls != null);
+                    
+                    // return value
+                    return hasWindControls;
                 }
             }
             #endregion
@@ -1435,6 +2016,61 @@ namespace SnowCreator.Pages
             {
                 get { return translateZMinControl; }
                 set { translateZMinControl = value; }
+            }
+            #endregion
+            
+            #region VelocityXMaxControl
+            /// <summary>
+            /// This property gets or sets the value for 'VelocityXMaxControl'.
+            /// </summary>
+            public ValidationComponent VelocityXMaxControl
+            {
+                get { return velocityXMaxControl; }
+                set { velocityXMaxControl = value; }
+            }
+            #endregion
+            
+            #region VelocityXMinControl
+            /// <summary>
+            /// This property gets or sets the value for 'VelocityXMinControl'.
+            /// </summary>
+            public ValidationComponent VelocityXMinControl
+            {
+                get { return velocityXMinControl; }
+                set { velocityXMinControl = value; }
+            }
+            #endregion
+            
+            #region VelocityZMaxControl
+            /// <summary>
+            /// This property gets or sets the value for 'VelocityZMaxControl'.
+            /// </summary>
+            public ValidationComponent VelocityZMaxControl
+            {
+                get { return velocityZMaxControl; }
+                set { velocityZMaxControl = value; }
+            }
+            #endregion
+            
+            #region VelocityZMinControl
+            /// <summary>
+            /// This property gets or sets the value for 'VelocityZMinControl'.
+            /// </summary>
+            public ValidationComponent VelocityZMinControl
+            {
+                get { return velocityZMinControl; }
+                set { velocityZMinControl = value; }
+            }
+            #endregion
+            
+            #region WindControls
+            /// <summary>
+            /// This property gets or sets the value for 'WindControls'.
+            /// </summary>
+            public List<ValidationComponent> WindControls
+            {
+                get { return windControls; }
+                set { windControls = value; }
             }
             #endregion
             

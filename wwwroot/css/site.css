@@ -25,8 +25,8 @@ body
     font-weight: normal;
     display: block;
     position: fixed;    
-    left: 30vw;
-    top: 48vh;
+    left: 33vw;
+    top: 66vh;
     margin-top: .4vh;
     z-index: 41;
     color: navy;
@@ -39,6 +39,15 @@ body
     position: fixed;
     left: 67vw;
     top: 2vh;
+}
+.forcecontainer
+{
+    position: fixed;
+    left: 50%;
+    top: 32vh;
+    margin-left: -30%;
+    width: 60%;
+    height: 20vh;    
 }
 .instructions
 {
@@ -70,17 +79,6 @@ body
     background-repeat: no-repeat;    
     transform-origin: left;
 }
-.topleft
-{
-    position: fixed;
-    left: 22vw;
-    top: 2vh;
-    width: 10vw;
-    height: 10vh;
-    color: navy;
-    font-family: Verdana;
-    font-size: 1.4em;
-}
 .omniverse
 {
     position: fixed;
@@ -94,13 +92,13 @@ body
 .progresscontainer
 {
     position: relative;
-    left: 78vw;
-    top: 20vh;    
+    left: 82vw;
+    top: 24vh;    
 }
 .resultscontainer
 {
     position: fixed;
-    top: 40vh;
+    top: 60vh;
     left: 30vw;
     width: 40vw;
     height: 20vh;
@@ -114,20 +112,23 @@ body
     background-size: 100% 100%;
     display: inline-block;
     position: fixed;    
-    left: 25.4vw;
-    top: 47vh;
+    left: 28vw;
+    top: 65vh;
 }
 .statuslabel
 {
     text-align: left;
 }
-.verticalcolumn1
+.topleft
 {
     position: fixed;
-    left: 20vw;
-    top: 10vh;
-    width: 20vw;
-    height: 24vh;    
+    left: 22vw;
+    top: 2vh;
+    width: 10vw;
+    height: 10vh;
+    color: navy;
+    font-family: Verdana;
+    font-size: 1.4em;
 }
 .version
 {
@@ -138,6 +139,22 @@ body
     font-family: Verdana;
     font-size: 2.4vh;
 }
+.verticalcolumn1
+{
+    position: fixed;
+    left: 20vw;
+    top: 10vh;
+    width: 20vw;
+    height: 24vh;    
+}
+.verticalcolumn1force
+{
+    position: absolute;
+    left: 0vw;
+    top: 0vh;
+    width: 20vw;
+    height: 24vh;    
+}
 .verticalcolumn2
 {
     position: fixed;
@@ -146,6 +163,14 @@ body
     width: 20vw;
     height: 24vh;    
 }
+.verticalcolumn2force
+{
+    position: absolute;
+    left: 21vw;
+    top: 0vh;
+    width: 20vw;
+    height: 24vh;  
+}
 .verticalcolumn3
 {
     position: fixed;
@@ -153,6 +178,14 @@ body
     top: 10vh;
     width: 20vw;
     height: 24vh;    
+}
+.verticalcolumn3force
+{
+    position: absolute;
+    left: 42vw;
+    top: 0vh;
+    width: 20vw;
+    height: 24vh;   
 }
 .youtube
 {

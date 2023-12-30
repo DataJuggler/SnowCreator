@@ -5,12 +5,12 @@
 
 <div class="logo"></div>
 <div class="omniverse"><span class="for">For</span></div>
-<div class="version">Version 1.0.1</div>
+<div class="version">Version 1.1.0</div>
 
 <div class="verticalcolumn1">
     <ValidationComponent Name="TranslateXMin" Parent="this" Caption="Translate X Min:"
         Column1Width="100" LabelClassName="down3 right2"></ValidationComponent>
-    <ValidationComponent Name="TranslateXMax" Parent="this" Caption="Translate x Max:"
+    <ValidationComponent Name="TranslateXMax" Parent="this" Caption="Translate X Max:"
         Column1Width="100" LabelClassName="down3 right2"></ValidationComponent>
     <ValidationComponent Name="ObjectsToCreate" Parent="this" Caption="# To Create:"
         Column1Width="100" LabelClassName="down3 right2"></ValidationComponent>
@@ -31,10 +31,38 @@
     <ValidationComponent Name="TranslateZMax" Parent="this" Caption="Translate Z Max:"
         Column1Width="100" LabelClassName="down3 right2"></ValidationComponent>
     <ValidationComponent Name="ScaleMax" Parent="this" Caption="Scale Max:"
-        Column1Width="100" LabelClassName="down3 right2"></ValidationComponent>
+        Column1Width="100" LabelClassName="down3 right2"></ValidationComponent>    
+</div>
+<div class="forcecontainer">
+    <ValidationComponent Name="EnableWindCheckBox" CheckBoxMode="true" Caption="Enable Wind:" 
+        Column1Width="100" CheckBoxYPosition="2" Parent="this"></ValidationComponent>
+    <ValidationComponent Name="ForcePercent" Parent="this" Caption="Force Percent:"
+        Column1Width="100" LabelClassName="down3 right2"></ValidationComponent>    
+    <div class="verticalcolumn2force">
+        <ValidationComponent Name="ForceXMin" Parent="this" Caption="Force X Min:"
+            Column1Width="100" LabelClassName="down3 right2"></ValidationComponent>
+        <ValidationComponent Name="ForceXMax" Parent="this" Caption="Force X Max:"
+            Column1Width="100" LabelClassName="down3 right2"></ValidationComponent>
+        <ValidationComponent Name="VelocityXMin" Parent="this" Caption="Velocity X Min:"
+            Column1Width="100" LabelClassName="down3 right2"></ValidationComponent>
+        <ValidationComponent Name="VelocityXMax" Parent="this" Caption="Velocity X Max:"
+            Column1Width="100" LabelClassName="down3 right2"></ValidationComponent>
+    </div>
+    <div class="verticalcolumn3force">
+        <ValidationComponent Name="ForceZMin" Parent="this" Caption="Force Z Min:"
+            Column1Width="100" LabelClassName="down3 right2"></ValidationComponent>
+        <ValidationComponent Name="ForceZMax" Parent="this" Caption="Force Z Max:"
+            Column1Width="100" LabelClassName="down3 right2"></ValidationComponent>
+        <ValidationComponent Name="VelocityZMin" Parent="this" Caption="Velocity Z Min:"
+            Column1Width="100" LabelClassName="down3 right2"></ValidationComponent>
+        <ValidationComponent Name="VelocityZMax" Parent="this" Caption="Velocity Z Max:"
+            Column1Width="100" LabelClassName="down3 right2"></ValidationComponent>
+    </div>
+</div>
+<div class="youtube">
     <ImageButton ImageUrl="../Images/SnowButton.png" ButtonText="Create Snow"
-        ClickHandler="ButtonClicked" HeightUnit="vh" Height="4" 
-        Position="relative" Left="12" Top="2"></ImageButton>
+        ClickHandler="ButtonClicked" HeightUnit="vh" Height="4"
+        Position="relative" Left="-16" Top="12"></ImageButton>
 </div>
 
 <div class="resultscontainer">
