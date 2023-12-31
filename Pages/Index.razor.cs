@@ -633,17 +633,17 @@ namespace SnowCreator.Pages
                 // Default Force Values
                 settings.ForcePercent = 50;
                 settings.ForceXMin = 0;
-                settings.ForceXMax = 100;
+                settings.ForceXMax = 50;
                 settings.ForceYMin = 0;
                 settings.ForceYMax = 0;
                 settings.ForceZMin = 0;
-                settings.ForceZMax = 100;
+                settings.ForceZMax = 50;
                 settings.VelocityXMin = 0;
-                settings.VelocityXMax = 1000;
+                settings.VelocityXMax = 100;
                 settings.VelocityYMin = 0;
                 settings.VelocityYMax = 0;
                 settings.VelocityZMin = 0;
-                settings.VelocityZMax = 1000;
+                settings.VelocityZMax = 100;
 
                 // Default to Black
                 LabelColor = "black";
