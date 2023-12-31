@@ -31,6 +31,10 @@ body
     z-index: 41;
     color: navy;
 }
+.fontsize10
+{
+    font-size: 10px !important;
+}
 .for
 {
     font-family: 'Comic Sans MS';
