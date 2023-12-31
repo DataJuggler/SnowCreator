@@ -21,11 +21,14 @@
   <ItemGroup>
     <PackageReference Include="DataJuggler.Blazor.Components" Version="8.1.5" />
     <PackageReference Include="DataJuggler.RandomShuffler" Version="8.0.4" />
-    <PackageReference Include="DataJuggler.RandomUSD" Version="1.1.2" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\Downloads\SnowScenes\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DataJuggler.RandomUSD\DataJuggler.RandomUSD.csproj" />
   </ItemGroup>
 
 </Project>

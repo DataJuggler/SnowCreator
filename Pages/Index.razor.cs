@@ -55,7 +55,8 @@ namespace SnowCreator.Pages
         private BackgroundWorker worker;
         private string progressStyle; 
         private string percentString;
-        private int percent;        
+        private int percent;
+        private int progressIncrement;
         private string labelColor;
         private bool enableWind;
         #endregion
@@ -235,7 +236,7 @@ namespace SnowCreator.Pages
                 try
                 {
                     // Perform the randomization
-                    RandomizationResult result = await Randomizer.RandomizeAsync(settings);
+                    RandomizationResult result = await Randomizer.RandomizeAsync(settings, Callback);
 
                     // return the result
                     e.Result = result;
@@ -282,6 +283,17 @@ namespace SnowCreator.Pages
                             // Create a new instance of a 'FileInfo' object.
                             FileInfo fileInfo = new FileInfo(result.OutputFileName);
 
+                            // Setup the label
+                            StatusLabel.SetTextValue("Zipping file, please wait...");
+                            StatusLabel.Refresh();
+
+                            // if the Invisible Sprite exists
+                            if (HasInvisibleSprite)
+                            {
+                                // Start the timer
+                                invisibleSprite.Start();
+                            }
+
                             // reference System.IO.Compression
                             using (var zip = ZipFile.Open(newFileName, ZipArchiveMode.Create))
                             {  
@@ -295,7 +307,7 @@ namespace SnowCreator.Pages
                             FileInfo fileInfo2 = new FileInfo(newFileName);
 
                             // Set the DownloadPath
-                            DownloadPath = "../Downloads/SnowScenes/" + fileInfo2.Name; // EnvironmentVariableHelper.GetEnvironmentVariableValue("SnowCreatorURL", EnvironmentVariableTarget.Machine) + "wwwroot/Downloads/SnowScenes/" + fileInfo2.Name;
+                            DownloadPath = "../Downloads/SnowScenes/" + fileInfo2.Name;
 
                              // Set the Download Filename
                             DownloadFileName = fileInfo2.Name;
@@ -344,6 +356,12 @@ namespace SnowCreator.Pages
 
                         // destory the reference
                         Worker = null;
+
+                        // if the value for HasInvisibleSprite is true
+                        if (HasInvisibleSprite)
+                        {
+                            InvisibleSprite.Stop();
+                        }
                     }
                 }
             }
@@ -377,6 +395,9 @@ namespace SnowCreator.Pages
                 {
                     // Set the value
                     Settings.ObjectsToCreate = NumericHelper.ParseInteger(ObjectsToCreateControl.Text, 0, 0);
+
+                    // Set hte progress increment
+                    SetProgressIncrement(Settings.ObjectsToCreate);
                 }
 
                 // if the component exists
@@ -517,12 +538,12 @@ namespace SnowCreator.Pages
                     // Show the Progressbar
                     ShowProgress = true;
 
-                    // if the ProgressBar
-                    if (HasInvisibleSprite)
-                    {
-                        // Start the Timer
-                        InvisibleSprite.Start();
-                    }
+                    //// if the ProgressBar
+                    //if (HasInvisibleSprite)
+                    //{
+                    //    // Start the Timer
+                    //    InvisibleSprite.Start();
+                    //}
 
                     // Show a message
                     StatusLabel.SetTextValue("Creating your snow scene, please wait...");
@@ -552,6 +573,39 @@ namespace SnowCreator.Pages
                 }
 
                 // Update UI
+                Refresh();
+            }
+            #endregion
+            
+            #region Callback(int progressPercent, bool complete)
+            /// <summary>
+            /// Callback
+            /// </summary>
+            public void Callback(int progressPercent, bool complete)
+            {
+                // if finished
+                if (complete)
+                {
+                    // finished
+                    // ShowProgress = false;
+                }
+                else
+                {
+                    // Set the percent
+                    double percent = (progressPercent / 2);
+
+                    // if greater than 50
+                    if (percent >= 50)
+                    {
+                        // go no higher than 50 here
+                        percent = 50;
+                    }
+
+                    // Update the value for Percent
+                    Percent = (int) percent;
+                }
+
+                // Update
                 Refresh();
             }
             #endregion
@@ -681,8 +735,8 @@ namespace SnowCreator.Pages
                 // if the value for ShowProgress is true
                 if (ShowProgress)
                 {
-                    // increment by 4
-                    Percent += 4;
+                    // increment by 1 - 5 based on how many objects to create there are
+                    Percent += ProgressIncrement;
 
                     // go a little past 100 for effect
                     if (Percent >= 100)
@@ -1026,6 +1080,35 @@ namespace SnowCreator.Pages
 
                 // Update
                 Refresh();
+            }
+            #endregion
+            
+            #region SetProgressIncrement(int objectsToCreate)
+            /// <summary>
+            /// Set Progress Increment
+            /// </summary>
+            public void SetProgressIncrement(int objectsToCreate)
+            {
+                if (objectsToCreate > 5000)
+                {
+                    // Set to 1
+                    ProgressIncrement = 2;
+                }
+                else if (objectsToCreate >= 4000)
+                {
+                    // Set to 2
+                    ProgressIncrement = 3;
+                }                
+                else if (objectsToCreate > 2000)
+                {
+                    // Set to 4
+                    ProgressIncrement = 4;
+                }
+                else
+                {
+                    // Set to 5
+                    ProgressIncrement = 5;
+                }
             }
             #endregion
             
@@ -1884,6 +1967,17 @@ namespace SnowCreator.Pages
             {
                 get { return percentString; }
                 set { percentString = value; }
+            }
+            #endregion
+            
+            #region ProgressIncrement
+            /// <summary>
+            /// This property gets or sets the value for 'ProgressIncrement'.
+            /// </summary>
+            public int ProgressIncrement
+            {
+                get { return progressIncrement; }
+                set { progressIncrement = value; }
             }
             #endregion
             
